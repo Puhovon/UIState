@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Lite
 {
@@ -9,10 +10,16 @@ namespace Lite
     {
         [SerializeField] private TMP_Text _itemId;
         [SerializeField] private ArmContainer arm;
+        [SerializeField] private Button btn;
 
         private Item _item;
         public bool IsEmpty { get; private set; } = true;
-        
+
+        private void Start()
+        {
+            btn.onClick.AddListener(GetItem);
+        }
+
         public void PutItem(Item item)
         {
             _item = item;
@@ -24,9 +31,10 @@ namespace Lite
         {
             IsEmpty = true;
             if (!arm.IsEmpty)
-            {
-                arm.GetItem(_item);
-            }
+                arm.DropItem();
+            
+            arm.GetItem(_item);
+            _itemId.text = "";
         }
     }
 }
